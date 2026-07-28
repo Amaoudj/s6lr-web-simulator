@@ -1,0 +1,37 @@
+{
+  "name": "s6lr-web-simulator",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vinext dev --hostname 127.0.0.1",
+    "build": "vinext build",
+    "start": "vinext start",
+    "check": "vinext check",
+    "typecheck": "tsc --noEmit",
+    "smoke:browser": "node scripts/browser-smoke.mjs",
+    "test:kinematics": "node --experimental-strip-types scripts/kinematics-smoke.ts"
+  },
+  "dependencies": {
+    "lucide-react": "1.27.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "react-server-dom-webpack": "19.2.8",
+    "three": "0.185.1",
+    "urdf-loader": "0.13.1",
+    "vinext": "1.0.0-beta.4"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "@types/three": "0.185.1",
+    "@vitejs/plugin-react": "6.0.4",
+    "@vitejs/plugin-rsc": "0.5.32",
+    "puppeteer-core": "25.4.0",
+    "typescript": "6.0.3",
+    "vite": "8.1.5"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.next/
+.vinext/
+.vite/
+.open-next/
+.wrangler/
+*.tsbuildinfo
+*.log
+.DS_Store
+Thumbs.db
+.env
+.env.*
+!.env.example
+artifacts/
