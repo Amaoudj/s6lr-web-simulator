@@ -318,10 +318,14 @@ export function solveGaitPose(
 
   for (const leg of LEG_IDS) {
     const base = STANDING_FEET[leg];
-    const turnAngle = command.turn * (parameters.stride / 0.1);
+    // `stride` is the body distance travelled in one complete cycle. A foot
+    // therefore sweeps stride × duty during its planted interval so its world
+    // position remains stationary while the body advances at constant speed.
+    const stanceTravel = parameters.stride * parameters.duty;
+    const turnAngle = command.turn * (stanceTravel / 0.1);
     const displacement: Vec3 = [
-      -command.forward * parameters.stride - base[1] * turnAngle,
-      command.lateral * parameters.stride + base[0] * turnAngle,
+      -command.forward * stanceTravel - base[1] * turnAngle,
+      command.lateral * stanceTravel + base[0] * turnAngle,
       0,
     ];
     const u = fract(globalPhase - config.starts[leg]);

@@ -8,7 +8,7 @@
     "build": "vinext build && node scripts/copy-hosting-manifest.mjs",
     "build:pages": "vite build --config vite.pages.config.ts",
     "start": "vinext start",
-    "preview:pages": "vite preview --config vite.pages.config.ts --hostname 127.0.0.1 --port 4174",
+    "preview:pages": "vite preview --config vite.pages.config.ts --host 127.0.0.1 --port 4174",
     "check": "vinext check",
     "typecheck": "tsc --noEmit",
     "smoke:browser": "node scripts/browser-smoke.mjs",

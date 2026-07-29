@@ -1,879 +1,664 @@
 <?xml version="1.0"?>
-<robot name="s6lr_hexapod">
-  <!-- 
-    S6LR Hexapod Robot URDF with ACTUAL STL Meshes
-    
-    This URDF uses the real mesh files from xml_Files folder.
-    The meshes are scaled from mm to meters (0.001 scale factor).
-    
-    Robot Structure:
-    - 6 legs, each with 3 DOF (hip, femur, tibia)
-    - Total: 18 actuated joints
-  -->
-
-  <!-- ==================== MATERIALS ==================== -->
-  <material name="body_white">
-    <color rgba="0.95 0.9 0.98 1"/>
+<!--
+  Browser URDF generated from Tracking_controller/xml/S6LR_v1.xml.
+  MJCF meshes are authored in parent CAD frames. Each visual offset below is
+  the negative of its true hinge pivot so the mesh rotates about the same axis
+  as the controller model without the previous double translation.
+-->
+<robot name="s6lr_tracking_controller">
+  <material name="robot_black">
+    <color rgba="0.025 0.03 0.03 1"/>
   </material>
-  <material name="servo_black">
-    <color rgba="0.1 0.1 0.1 1"/>
-  </material>
-  <material name="hip_blue">
-    <color rgba="0 0 0.98 1"/>
-  </material>
-
-  <!-- ==================== TORSO (BASE LINK) ==================== -->
   <link name="torso">
-    <inertial>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="2.0"/>
-      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.015" iyz="0" izz="0.02"/>
-    </inertial>
-    
-    <!-- Main body visual meshes -->
-    <visual name="vim_top_cover">
+
+    <visual name="torso_1">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/vim_top_cover.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    
-    <visual name="vim_base">
+
+    <visual name="torso_2">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/vim base.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    
-    <visual name="main_body_mid">
+
+    <visual name="torso_3">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/main body mid.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    
-    <visual name="main_body_lower">
+
+    <visual name="torso_4">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/main body lower.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    
-    <visual name="lower_base">
+
+    <visual name="torso_5">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/lower base.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    
-    <visual name="camera_holder_A">
+
+    <visual name="torso_6">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/camera holder A.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    
-    <visual name="camera_holder_B">
+
+    <visual name="torso_7">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/camera holder B.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    
-    <visual name="motor_pitch_roll_holder">
+
+    <visual name="torso_8">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/motor pitch roll holder.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    
-    <visual name="base_roll">
+
+    <visual name="torso_9">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/base roll.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    
-    <visual name="hip_motor">
+
+    <visual name="torso_10">
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/hip motor.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    
-    <!-- Collision: simplified box for performance -->
-    <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <geometry>
-        <box size="0.12 0.08 0.05"/>
-      </geometry>
-    </collision>
   </link>
 
-  <!-- ==================== LEG 1 (FRONT-RIGHT) ==================== -->
+  <!-- Leg 1: right front -->
   <joint name="hip_joint_1" type="revolute">
     <parent link="torso"/>
     <child link="hip_1"/>
-    <origin xyz="-0.050 -0.0035 0" rpy="0 0 0"/>
+    <origin xyz="-0.05 0.0245 -0.0415" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit lower="-1.0" upper="1.0" effort="5.0" velocity="3.0"/>
-    <dynamics damping="0.1" friction="0.05"/>
+    <limit lower="-1" upper="1" effort="5" velocity="3"/>
   </joint>
-
   <link name="hip_1">
-    <inertial>
-      <origin xyz="0 0.028 -0.0415" rpy="0 0 0"/>
-      <mass value="0.05"/>
-      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
-    </inertial>
-    <visual name="hip_frame_right_1">
-      <origin xyz="0.050 0.0035 0" rpy="0 0 0"/>
+
+    <visual name="hip_frame_1">
+      <origin xyz="0 -0.028 0.0415" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/hip frame right mid.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="hip_blue"/>
+      <material name="robot_black"/>
     </visual>
-    <collision>
-      <origin xyz="0 0.028 -0.0415" rpy="0 0 0"/>
-      <geometry>
-        <box size="0.04 0.04 0.04"/>
-      </geometry>
-    </collision>
   </link>
 
   <joint name="femur_joint_1" type="revolute">
     <parent link="hip_1"/>
     <child link="femur_1"/>
-    <origin xyz="0 0.028 -0.0415" rpy="0 0 0"/>
+    <origin xyz="0 0.024 0.0115" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <limit lower="-1.0" upper="1.0" effort="5.0" velocity="3.0"/>
-    <dynamics damping="0.1" friction="0.05"/>
+    <limit lower="-3" upper="3" effort="5" velocity="3"/>
   </joint>
-
   <link name="femur_1">
-    <inertial>
-      <origin xyz="0.04 0.024 0.0115" rpy="0 0 0"/>
-      <mass value="0.15"/>
-      <inertia ixx="0.0002" ixy="0" ixz="0" iyy="0.0002" iyz="0" izz="0.0002"/>
-    </inertial>
-    <visual name="servo_femur_1">
-      <origin xyz="0.050 -0.0245 0.0415" rpy="0 0 0"/>
+
+    <visual name="femur_1_1">
+      <origin xyz="0 -0.052 0.03" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/Servo femur.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="servo_black"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="servo_tibia_1">
-      <origin xyz="0.050 -0.0245 0.0415" rpy="0 0 0"/>
+
+    <visual name="femur_1_2">
+      <origin xyz="0 -0.052 0.03" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/Servo tibia.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="servo_black"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="femur_frame_1">
-      <origin xyz="0.050 -0.0245 0.0415" rpy="0 0 0"/>
+
+    <visual name="femur_1_3">
+      <origin xyz="0 -0.052 0.03" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/femur frame maini right.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <collision>
-      <origin xyz="0.04 0.024 0" rpy="0 0 0"/>
-      <geometry>
-        <box size="0.08 0.05 0.04"/>
-      </geometry>
-    </collision>
   </link>
 
   <joint name="tibia_joint_1" type="revolute">
     <parent link="femur_1"/>
     <child link="tibia_1"/>
-    <origin xyz="0.0175 0.0405 0.024" rpy="0 0 0"/>
+    <origin xyz="0 0.0165 0.054" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <limit lower="0" upper="1.57" effort="5.0" velocity="3.0"/>
-    <dynamics damping="0.1" friction="0.05"/>
+    <limit lower="-3" upper="3" effort="5" velocity="3"/>
   </joint>
-
   <link name="tibia_1">
-    <inertial>
-      <origin xyz="0 0.04 -0.08" rpy="0 0 0"/>
-      <mass value="0.1"/>
-      <inertia ixx="0.0002" ixy="0" ixz="0" iyy="0.0002" iyz="0" izz="0.0002"/>
-    </inertial>
-    <visual name="tibia_frame_A_1">
-      <origin xyz="0.0325 -0.068 0.0175" rpy="0 0 0"/>
+
+    <visual name="tibia_1_1">
+      <origin xyz="0 -0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/tibia frame A.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="tibia_link_A_1">
-      <origin xyz="0.0325 -0.068 0.0175" rpy="0 0 0"/>
+
+    <visual name="tibia_1_2">
+      <origin xyz="0 -0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/tibia link A.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="tibia_base_1">
-      <origin xyz="0.0325 -0.068 0.0175" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="xml_Files/tibia base.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-      <material name="body_white"/>
-    </visual>
-    <visual name="tibia_link_B_1">
-      <origin xyz="0.0325 -0.068 0.0175" rpy="0 0 0"/>
+
+    <visual name="tibia_1_3">
+      <origin xyz="0 -0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/tibia link B.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <collision>
-      <origin xyz="0 0.04 -0.06" rpy="0 0 0"/>
+
+    <visual name="tibia_1_4">
+      <origin xyz="0 -0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
-        <box size="0.03 0.04 0.12"/>
+        <mesh filename="xml_Files/tibia base.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-    </collision>
+      <material name="robot_black"/>
+    </visual>
   </link>
 
-  <!-- ==================== LEG 2 (FRONT-LEFT) ==================== -->
+  <!-- Leg 2: left front -->
   <joint name="hip_joint_2" type="revolute">
     <parent link="torso"/>
     <child link="hip_2"/>
-    <origin xyz="-0.050 0.0035 0" rpy="0 0 0"/>
+    <origin xyz="-0.05 -0.0245 -0.0415" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit lower="-1.0" upper="1.0" effort="5.0" velocity="3.0"/>
-    <dynamics damping="0.1" friction="0.05"/>
+    <limit lower="-1" upper="1" effort="5" velocity="3"/>
   </joint>
-
   <link name="hip_2">
-    <inertial>
-      <origin xyz="0 -0.028 -0.0415" rpy="0 0 0"/>
-      <mass value="0.05"/>
-      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
-    </inertial>
-    <visual name="hip_frame_left_2">
-      <origin xyz="0.050 -0.0035 0" rpy="0 0 0"/>
+
+    <visual name="hip_frame_2">
+      <origin xyz="0 0.028 0.0415" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/hip frame right mid.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <collision>
-      <origin xyz="0 -0.028 -0.0415" rpy="0 0 0"/>
-      <geometry>
-        <box size="0.04 0.04 0.04"/>
-      </geometry>
-    </collision>
   </link>
 
   <joint name="femur_joint_2" type="revolute">
     <parent link="hip_2"/>
     <child link="femur_2"/>
-    <origin xyz="0 -0.028 -0.0415" rpy="0 0 0"/>
+    <origin xyz="0 -0.024 0.0115" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <limit lower="-1.0" upper="1.0" effort="5.0" velocity="3.0"/>
-    <dynamics damping="0.1" friction="0.05"/>
+    <limit lower="-3" upper="3" effort="5" velocity="3"/>
   </joint>
-
   <link name="femur_2">
-    <inertial>
-      <origin xyz="0.04 -0.024 0.0115" rpy="0 0 0"/>
-      <mass value="0.15"/>
-      <inertia ixx="0.0002" ixy="0" ixz="0" iyy="0.0002" iyz="0" izz="0.0002"/>
-    </inertial>
-    <visual name="servo_femur_2">
-      <origin xyz="0.050 0.0245 0.0415" rpy="0 0 0"/>
+
+    <visual name="femur_2_1">
+      <origin xyz="0 0.052 0.03" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/Servo femur.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-      <material name="servo_black"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="servo_tibia_2">
-      <origin xyz="0.050 0.0245 0.0415" rpy="0 0 0"/>
+
+    <visual name="femur_2_2">
+      <origin xyz="0 0.052 0.03" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/Servo tibia.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-      <material name="servo_black"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="femur_frame_2">
-      <origin xyz="0.050 0.0245 0.0415" rpy="0 0 0"/>
+
+    <visual name="femur_2_3">
+      <origin xyz="0 0.052 0.03" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/femur frame maini right.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <collision>
-      <origin xyz="0.04 -0.024 0" rpy="0 0 0"/>
-      <geometry>
-        <box size="0.08 0.05 0.04"/>
-      </geometry>
-    </collision>
   </link>
 
   <joint name="tibia_joint_2" type="revolute">
     <parent link="femur_2"/>
     <child link="tibia_2"/>
-    <origin xyz="0.0175 -0.0405 0.024" rpy="0 0 0"/>
+    <origin xyz="0 -0.0165 0.054" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <limit lower="-1.0" upper="1.0" effort="5.0" velocity="3.0"/>
-    <dynamics damping="0.1" friction="0.05"/>
+    <limit lower="-3" upper="3" effort="5" velocity="3"/>
   </joint>
-
   <link name="tibia_2">
-    <inertial>
-      <origin xyz="0 -0.04 -0.08" rpy="0 0 0"/>
-      <mass value="0.1"/>
-      <inertia ixx="0.0002" ixy="0" ixz="0" iyy="0.0002" iyz="0" izz="0.0002"/>
-    </inertial>
-    <visual name="tibia_frame_A_2">
-      <origin xyz="0.0325 0.068 0.0175" rpy="0 0 0"/>
+
+    <visual name="tibia_2_1">
+      <origin xyz="0 0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/tibia frame A.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="tibia_link_A_2">
-      <origin xyz="0.0325 0.068 0.0175" rpy="0 0 0"/>
+
+    <visual name="tibia_2_2">
+      <origin xyz="0 0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/tibia link A.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="tibia_base_2">
-      <origin xyz="0.0325 0.068 0.0175" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="xml_Files/tibia base.stl" scale="0.001 -0.001 0.001"/>
-      </geometry>
-      <material name="body_white"/>
-    </visual>
-    <visual name="tibia_link_B_2">
-      <origin xyz="0.0325 0.068 0.0175" rpy="0 0 0"/>
+
+    <visual name="tibia_2_3">
+      <origin xyz="0 0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/tibia link B.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <collision>
-      <origin xyz="0 -0.04 -0.06" rpy="0 0 0"/>
+
+    <visual name="tibia_2_4">
+      <origin xyz="0 0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
-        <box size="0.03 0.04 0.12"/>
+        <mesh filename="xml_Files/tibia base.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-    </collision>
+      <material name="robot_black"/>
+    </visual>
   </link>
 
-  <!-- ==================== LEG 3 (MID-RIGHT) ==================== -->
+  <!-- Leg 3: right middle -->
   <joint name="hip_joint_3" type="revolute">
     <parent link="torso"/>
     <child link="hip_3"/>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <origin xyz="0 0.028 -0.0415" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit lower="-1.0" upper="1.0" effort="5.0" velocity="3.0"/>
-    <dynamics damping="0.1" friction="0.05"/>
+    <limit lower="-1" upper="1" effort="5" velocity="3"/>
   </joint>
-
   <link name="hip_3">
-    <inertial>
-      <origin xyz="0 0.028 -0.0415" rpy="0 0 0"/>
-      <mass value="0.05"/>
-      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
-    </inertial>
-    <visual name="hip_frame_right_3">
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+
+    <visual name="hip_frame_3">
+      <origin xyz="0 -0.028 0.0415" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/hip frame right mid.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="hip_blue"/>
+      <material name="robot_black"/>
     </visual>
-    <collision>
-      <origin xyz="0 0.028 -0.0415" rpy="0 0 0"/>
-      <geometry>
-        <box size="0.04 0.04 0.04"/>
-      </geometry>
-    </collision>
   </link>
 
   <joint name="femur_joint_3" type="revolute">
     <parent link="hip_3"/>
     <child link="femur_3"/>
-    <origin xyz="0 0.028 -0.0415" rpy="0 0 0"/>
+    <origin xyz="0 0.024 0.0115" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <limit lower="-1.0" upper="1.0" effort="5.0" velocity="3.0"/>
-    <dynamics damping="0.1" friction="0.05"/>
+    <limit lower="-3" upper="3" effort="5" velocity="3"/>
   </joint>
-
   <link name="femur_3">
-    <inertial>
-      <origin xyz="0.04 0.024 0.0115" rpy="0 0 0"/>
-      <mass value="0.15"/>
-      <inertia ixx="0.0002" ixy="0" ixz="0" iyy="0.0002" iyz="0" izz="0.0002"/>
-    </inertial>
-    <visual name="servo_femur_3">
-      <origin xyz="0 -0.028 0.0415" rpy="0 0 0"/>
+
+    <visual name="femur_3_1">
+      <origin xyz="0 -0.052 0.03" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/Servo femur.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="servo_black"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="servo_tibia_3">
-      <origin xyz="0 -0.028 0.0415" rpy="0 0 0"/>
+
+    <visual name="femur_3_2">
+      <origin xyz="0 -0.052 0.03" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/Servo tibia.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="servo_black"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="femur_frame_3">
-      <origin xyz="0 -0.028 0.0415" rpy="0 0 0"/>
+
+    <visual name="femur_3_3">
+      <origin xyz="0 -0.052 0.03" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/femur frame maini right.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <collision>
-      <origin xyz="0.04 0.024 0" rpy="0 0 0"/>
-      <geometry>
-        <box size="0.08 0.05 0.04"/>
-      </geometry>
-    </collision>
   </link>
 
   <joint name="tibia_joint_3" type="revolute">
     <parent link="femur_3"/>
     <child link="tibia_3"/>
-    <origin xyz="0.0175 0.0405 0.024" rpy="0 0 0"/>
+    <origin xyz="0 0.0165 0.054" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <limit lower="-1.0" upper="1.0" effort="5.0" velocity="3.0"/>
-    <dynamics damping="0.1" friction="0.05"/>
+    <limit lower="-3" upper="3" effort="5" velocity="3"/>
   </joint>
-
   <link name="tibia_3">
-    <inertial>
-      <origin xyz="0 0.04 -0.08" rpy="0 0 0"/>
-      <mass value="0.1"/>
-      <inertia ixx="0.0002" ixy="0" ixz="0" iyy="0.0002" iyz="0" izz="0.0002"/>
-    </inertial>
-    <visual name="tibia_frame_A_3">
-      <origin xyz="-0.0175 -0.0685 0.0175" rpy="0 0 0"/>
+
+    <visual name="tibia_3_1">
+      <origin xyz="0 -0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/tibia frame A.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="tibia_link_A_3">
-      <origin xyz="-0.0175 -0.0685 0.0175" rpy="0 0 0"/>
+
+    <visual name="tibia_3_2">
+      <origin xyz="0 -0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/tibia link A.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="tibia_base_3">
-      <origin xyz="-0.0175 -0.0685 0.0175" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="xml_Files/tibia base.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-      <material name="body_white"/>
-    </visual>
-    <visual name="tibia_link_B_3">
-      <origin xyz="-0.0175 -0.0685 0.0175" rpy="0 0 0"/>
+
+    <visual name="tibia_3_3">
+      <origin xyz="0 -0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/tibia link B.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <collision>
-      <origin xyz="0 0.04 -0.06" rpy="0 0 0"/>
+
+    <visual name="tibia_3_4">
+      <origin xyz="0 -0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
-        <box size="0.03 0.04 0.12"/>
+        <mesh filename="xml_Files/tibia base.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-    </collision>
+      <material name="robot_black"/>
+    </visual>
   </link>
 
-  <!-- ==================== LEG 4 (MID-LEFT) ==================== -->
+  <!-- Leg 4: left middle -->
   <joint name="hip_joint_4" type="revolute">
     <parent link="torso"/>
     <child link="hip_4"/>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <origin xyz="0 -0.028 -0.0415" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit lower="-1.0" upper="1.0" effort="5.0" velocity="3.0"/>
-    <dynamics damping="0.1" friction="0.05"/>
+    <limit lower="-1" upper="1" effort="5" velocity="3"/>
   </joint>
-
   <link name="hip_4">
-    <inertial>
-      <origin xyz="0 -0.028 -0.0415" rpy="0 0 0"/>
-      <mass value="0.05"/>
-      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
-    </inertial>
-    <visual name="hip_frame_left_4">
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+
+    <visual name="hip_frame_4">
+      <origin xyz="0 0.028 0.0415" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/hip frame right mid.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <collision>
-      <origin xyz="0 -0.028 -0.0415" rpy="0 0 0"/>
-      <geometry>
-        <box size="0.04 0.04 0.04"/>
-      </geometry>
-    </collision>
   </link>
 
   <joint name="femur_joint_4" type="revolute">
     <parent link="hip_4"/>
     <child link="femur_4"/>
-    <origin xyz="0 -0.028 -0.0415" rpy="0 0 0"/>
+    <origin xyz="0 -0.024 0.0115" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <limit lower="-1.0" upper="1.0" effort="5.0" velocity="3.0"/>
-    <dynamics damping="0.1" friction="0.05"/>
+    <limit lower="-3" upper="3" effort="5" velocity="3"/>
   </joint>
-
   <link name="femur_4">
-    <inertial>
-      <origin xyz="0.04 -0.024 0.0115" rpy="0 0 0"/>
-      <mass value="0.15"/>
-      <inertia ixx="0.0002" ixy="0" ixz="0" iyy="0.0002" iyz="0" izz="0.0002"/>
-    </inertial>
-    <visual name="servo_femur_4">
-      <origin xyz="0 0.028 0.0415" rpy="0 0 0"/>
+
+    <visual name="femur_4_1">
+      <origin xyz="0 0.052 0.03" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/Servo femur.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-      <material name="servo_black"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="servo_tibia_4">
-      <origin xyz="0 0.028 0.0415" rpy="0 0 0"/>
+
+    <visual name="femur_4_2">
+      <origin xyz="0 0.052 0.03" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/Servo tibia.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-      <material name="servo_black"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="femur_frame_4">
-      <origin xyz="0 0.028 0.0415" rpy="0 0 0"/>
+
+    <visual name="femur_4_3">
+      <origin xyz="0 0.052 0.03" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/femur frame maini right.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <collision>
-      <origin xyz="0.04 -0.024 0" rpy="0 0 0"/>
-      <geometry>
-        <box size="0.08 0.05 0.04"/>
-      </geometry>
-    </collision>
   </link>
 
   <joint name="tibia_joint_4" type="revolute">
     <parent link="femur_4"/>
     <child link="tibia_4"/>
-    <origin xyz="0.0175 -0.0405 0.024" rpy="0 0 0"/>
+    <origin xyz="0 -0.0165 0.054" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <limit lower="-1.0" upper="1.0" effort="5.0" velocity="3.0"/>
-    <dynamics damping="0.1" friction="0.05"/>
+    <limit lower="-3" upper="3" effort="5" velocity="3"/>
   </joint>
-
   <link name="tibia_4">
-    <inertial>
-      <origin xyz="0 -0.04 -0.08" rpy="0 0 0"/>
-      <mass value="0.1"/>
-      <inertia ixx="0.0002" ixy="0" ixz="0" iyy="0.0002" iyz="0" izz="0.0002"/>
-    </inertial>
-    <visual name="tibia_frame_A_4">
-      <origin xyz="-0.0175 0.0685 0.0175" rpy="0 0 0"/>
+
+    <visual name="tibia_4_1">
+      <origin xyz="0 0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/tibia frame A.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="tibia_link_A_4">
-      <origin xyz="-0.0175 0.0685 0.0175" rpy="0 0 0"/>
+
+    <visual name="tibia_4_2">
+      <origin xyz="0 0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/tibia link A.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="tibia_base_4">
-      <origin xyz="-0.0175 0.0685 0.0175" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="xml_Files/tibia base.stl" scale="0.001 -0.001 0.001"/>
-      </geometry>
-      <material name="body_white"/>
-    </visual>
-    <visual name="tibia_link_B_4">
-      <origin xyz="-0.0175 0.0685 0.0175" rpy="0 0 0"/>
+
+    <visual name="tibia_4_3">
+      <origin xyz="0 0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/tibia link B.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <collision>
-      <origin xyz="0 -0.04 -0.06" rpy="0 0 0"/>
+
+    <visual name="tibia_4_4">
+      <origin xyz="0 0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
-        <box size="0.03 0.04 0.12"/>
+        <mesh filename="xml_Files/tibia base.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-    </collision>
+      <material name="robot_black"/>
+    </visual>
   </link>
 
-  <!-- ==================== LEG 5 (REAR-RIGHT) ==================== -->
+  <!-- Leg 5: right rear -->
   <joint name="hip_joint_5" type="revolute">
     <parent link="torso"/>
     <child link="hip_5"/>
-    <origin xyz="0.050 -0.0035 0" rpy="0 0 0"/>
+    <origin xyz="0.05 0.0245 -0.0415" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit lower="-1.0" upper="1.0" effort="5.0" velocity="3.0"/>
-    <dynamics damping="0.1" friction="0.05"/>
+    <limit lower="-1" upper="1" effort="5" velocity="3"/>
   </joint>
-
   <link name="hip_5">
-    <inertial>
-      <origin xyz="0 0.028 -0.0415" rpy="0 0 0"/>
-      <mass value="0.05"/>
-      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
-    </inertial>
-    <visual name="hip_frame_right_5">
-      <origin xyz="-0.050 0.0035 0" rpy="0 0 0"/>
+
+    <visual name="hip_frame_5">
+      <origin xyz="0 -0.028 0.0415" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/hip frame right mid.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="hip_blue"/>
+      <material name="robot_black"/>
     </visual>
-    <collision>
-      <origin xyz="0 0.028 -0.0415" rpy="0 0 0"/>
-      <geometry>
-        <box size="0.04 0.04 0.04"/>
-      </geometry>
-    </collision>
   </link>
 
   <joint name="femur_joint_5" type="revolute">
     <parent link="hip_5"/>
     <child link="femur_5"/>
-    <origin xyz="0 0.028 -0.0415" rpy="0 0 0"/>
+    <origin xyz="0 0.024 0.0115" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <limit lower="-1.0" upper="1.0" effort="5.0" velocity="3.0"/>
-    <dynamics damping="0.1" friction="0.05"/>
+    <limit lower="-3" upper="3" effort="5" velocity="3"/>
   </joint>
-
   <link name="femur_5">
-    <inertial>
-      <origin xyz="0.04 0.024 0.0115" rpy="0 0 0"/>
-      <mass value="0.15"/>
-      <inertia ixx="0.0002" ixy="0" ixz="0" iyy="0.0002" iyz="0" izz="0.0002"/>
-    </inertial>
-    <visual name="servo_femur_5">
-      <origin xyz="-0.050 -0.0245 0.0415" rpy="0 0 0"/>
+
+    <visual name="femur_5_1">
+      <origin xyz="0 -0.052 0.03" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/Servo femur.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="servo_black"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="servo_tibia_5">
-      <origin xyz="-0.050 -0.0245 0.0415" rpy="0 0 0"/>
+
+    <visual name="femur_5_2">
+      <origin xyz="0 -0.052 0.03" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/Servo tibia.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="servo_black"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="femur_frame_5">
-      <origin xyz="-0.050 -0.0245 0.0415" rpy="0 0 0"/>
+
+    <visual name="femur_5_3">
+      <origin xyz="0 -0.052 0.03" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/femur frame maini right.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <collision>
-      <origin xyz="0.04 0.024 0" rpy="0 0 0"/>
-      <geometry>
-        <box size="0.08 0.05 0.04"/>
-      </geometry>
-    </collision>
   </link>
 
   <joint name="tibia_joint_5" type="revolute">
     <parent link="femur_5"/>
     <child link="tibia_5"/>
-    <origin xyz="0.0175 0.0405 0.024" rpy="0 0 0"/>
+    <origin xyz="0 0.0165 0.054" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <limit lower="-1.0" upper="1.0" effort="5.0" velocity="3.0"/>
-    <dynamics damping="0.1" friction="0.05"/>
+    <limit lower="-3" upper="3" effort="5" velocity="3"/>
   </joint>
-
   <link name="tibia_5">
-    <inertial>
-      <origin xyz="0 0.04 -0.08" rpy="0 0 0"/>
-      <mass value="0.1"/>
-      <inertia ixx="0.0002" ixy="0" ixz="0" iyy="0.0002" iyz="0" izz="0.0002"/>
-    </inertial>
-    <visual name="tibia_frame_A_5">
-      <origin xyz="-0.0675 -0.068 0.0175" rpy="0 0 0"/>
+
+    <visual name="tibia_5_1">
+      <origin xyz="0 -0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/tibia frame A.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="tibia_link_A_5">
-      <origin xyz="-0.0675 -0.068 0.0175" rpy="0 0 0"/>
+
+    <visual name="tibia_5_2">
+      <origin xyz="0 -0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/tibia link A.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="tibia_base_5">
-      <origin xyz="-0.0675 -0.068 0.0175" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="xml_Files/tibia base.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-      <material name="body_white"/>
-    </visual>
-    <visual name="tibia_link_B_5">
-      <origin xyz="-0.0675 -0.068 0.0175" rpy="0 0 0"/>
+
+    <visual name="tibia_5_3">
+      <origin xyz="0 -0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/tibia link B.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <collision>
-      <origin xyz="0 0.04 -0.06" rpy="0 0 0"/>
+
+    <visual name="tibia_5_4">
+      <origin xyz="0 -0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
-        <box size="0.03 0.04 0.12"/>
+        <mesh filename="xml_Files/tibia base.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-    </collision>
+      <material name="robot_black"/>
+    </visual>
   </link>
 
-  <!-- ==================== LEG 6 (REAR-LEFT) ==================== -->
+  <!-- Leg 6: left rear -->
   <joint name="hip_joint_6" type="revolute">
     <parent link="torso"/>
     <child link="hip_6"/>
-    <origin xyz="0.050 0.0035 0" rpy="0 0 0"/>
+    <origin xyz="0.05 -0.0245 -0.0415" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit lower="-1.0" upper="1.0" effort="5.0" velocity="3.0"/>
-    <dynamics damping="0.1" friction="0.05"/>
+    <limit lower="-1" upper="1" effort="5" velocity="3"/>
   </joint>
-
   <link name="hip_6">
-    <inertial>
-      <origin xyz="0 -0.028 -0.0415" rpy="0 0 0"/>
-      <mass value="0.05"/>
-      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
-    </inertial>
-    <visual name="hip_frame_left_6">
-      <origin xyz="-0.050 -0.0035 0" rpy="0 0 0"/>
+
+    <visual name="hip_frame_6">
+      <origin xyz="0 0.028 0.0415" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/hip frame right mid.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <collision>
-      <origin xyz="0 -0.028 -0.0415" rpy="0 0 0"/>
-      <geometry>
-        <box size="0.04 0.04 0.04"/>
-      </geometry>
-    </collision>
   </link>
 
   <joint name="femur_joint_6" type="revolute">
     <parent link="hip_6"/>
     <child link="femur_6"/>
-    <origin xyz="0 -0.028 -0.0415" rpy="0 0 0"/>
+    <origin xyz="0 -0.024 0.0115" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <limit lower="-1.0" upper="1.0" effort="5.0" velocity="3.0"/>
-    <dynamics damping="0.1" friction="0.05"/>
+    <limit lower="-3" upper="3" effort="5" velocity="3"/>
   </joint>
-
   <link name="femur_6">
-    <inertial>
-      <origin xyz="0.04 -0.024 0.0115" rpy="0 0 0"/>
-      <mass value="0.15"/>
-      <inertia ixx="0.0002" ixy="0" ixz="0" iyy="0.0002" iyz="0" izz="0.0002"/>
-    </inertial>
-    <visual name="servo_femur_6">
-      <origin xyz="-0.050 0.0245 0.0415" rpy="0 0 0"/>
+
+    <visual name="femur_6_1">
+      <origin xyz="0 0.052 0.03" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/Servo femur.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-      <material name="servo_black"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="servo_tibia_6">
-      <origin xyz="-0.050 0.0245 0.0415" rpy="0 0 0"/>
+
+    <visual name="femur_6_2">
+      <origin xyz="0 0.052 0.03" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/Servo tibia.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-      <material name="servo_black"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="femur_frame_6">
-      <origin xyz="-0.050 0.0245 0.0415" rpy="0 0 0"/>
+
+    <visual name="femur_6_3">
+      <origin xyz="0 0.052 0.03" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/femur frame maini right.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <collision>
-      <origin xyz="0.04 -0.024 0" rpy="0 0 0"/>
-      <geometry>
-        <box size="0.08 0.05 0.04"/>
-      </geometry>
-    </collision>
   </link>
 
   <joint name="tibia_joint_6" type="revolute">
     <parent link="femur_6"/>
     <child link="tibia_6"/>
-    <origin xyz="0.0175 -0.0405 0.024" rpy="0 0 0"/>
+    <origin xyz="0 -0.0165 0.054" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
-    <limit lower="-1.0" upper="1.0" effort="5.0" velocity="3.0"/>
-    <dynamics damping="0.1" friction="0.05"/>
+    <limit lower="-3" upper="3" effort="5" velocity="3"/>
   </joint>
-
   <link name="tibia_6">
-    <inertial>
-      <origin xyz="0 -0.04 -0.08" rpy="0 0 0"/>
-      <mass value="0.1"/>
-      <inertia ixx="0.0002" ixy="0" ixz="0" iyy="0.0002" iyz="0" izz="0.0002"/>
-    </inertial>
-    <visual name="tibia_frame_A_6">
-      <origin xyz="-0.0675 0.068 0.0175" rpy="0 0 0"/>
+
+    <visual name="tibia_6_1">
+      <origin xyz="0 0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/tibia frame A.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="tibia_link_A_6">
-      <origin xyz="-0.0675 0.068 0.0175" rpy="0 0 0"/>
+
+    <visual name="tibia_6_2">
+      <origin xyz="0 0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/tibia link A.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <visual name="tibia_base_6">
-      <origin xyz="-0.0675 0.068 0.0175" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="xml_Files/tibia base.stl" scale="0.001 -0.001 0.001"/>
-      </geometry>
-      <material name="body_white"/>
-    </visual>
-    <visual name="tibia_link_B_6">
-      <origin xyz="-0.0675 0.068 0.0175" rpy="0 0 0"/>
+
+    <visual name="tibia_6_3">
+      <origin xyz="0 0.0685 -0.024" rpy="0 0 0"/>
       <geometry>
         <mesh filename="xml_Files/tibia link B.stl" scale="0.001 -0.001 0.001"/>
       </geometry>
-      <material name="body_white"/>
+      <material name="robot_black"/>
     </visual>
-    <collision>
-      <origin xyz="0 -0.04 -0.06" rpy="0 0 0"/>
-      <geometry>
-        <box size="0.03 0.04 0.12"/>
-      </geometry>
-    </collision>
-  </link>
 
+    <visual name="tibia_6_4">
+      <origin xyz="0 0.0685 -0.024" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="xml_Files/tibia base.stl" scale="0.001 -0.001 0.001"/>
+      </geometry>
+      <material name="robot_black"/>
+    </visual>
+  </link>
 </robot>

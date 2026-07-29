@@ -287,6 +287,7 @@ export function SimulatorApp() {
     phase: 0,
     cycle: 0,
     fps: 60,
+    world: { x: 0, y: 0, yaw: 0, distance: 0, speed: 0 },
   });
   const initialFoot = STANDING_FEET[1];
   const [ikTarget, setIkTarget] = useState<FootTarget>({
@@ -645,6 +646,27 @@ export function SimulatorApp() {
             </div>
           </section>
 
+          <section
+            className="telemetry-block odometry-block"
+            data-odometry-distance={telemetry.world.distance.toFixed(4)}
+            data-odometry-x={telemetry.world.x.toFixed(4)}
+            data-odometry-y={telemetry.world.y.toFixed(4)}
+            data-odometry-yaw={telemetry.world.yaw.toFixed(4)}
+          >
+            <div className="block-label">
+              <span>WORLD ODOMETRY <small>SE(2)</small></span>
+              <strong className="odometry-distance">
+                {(telemetry.world.distance * 1000).toFixed(0)} <small>mm</small>
+              </strong>
+            </div>
+            <div className="odometry-grid">
+              <span>X<b>{(telemetry.world.x * 1000).toFixed(1)}</b><small>mm</small></span>
+              <span>Y<b>{(telemetry.world.y * 1000).toFixed(1)}</b><small>mm</small></span>
+              <span>YAW<b>{degrees(telemetry.world.yaw).toFixed(1)}</b><small>deg</small></span>
+              <span>v<b>{(telemetry.world.speed * 1000).toFixed(1)}</b><small>mm/s</small></span>
+            </div>
+          </section>
+
           <section className="telemetry-block trace-block">
             <div className="block-label">
               <span>BODY HEIGHT</span>
@@ -796,7 +818,13 @@ export function SimulatorApp() {
           <div className="viewport-status">
             <span>TRIS <b>{robotStatus.loaded ? formatTriangles : "—"}</b></span>
             <span>UP <b>+Z</b></span>
-            <span>FRAME <b>BODY</b></span>
+            <span>FRAME <b>WORLD</b></span>
+          </div>
+
+          <div className="viewport-legend" aria-label="Teaching visualization legend">
+            <span><i className="legend-stance" /> STANCE + SUPPORT</span>
+            <span><i className="legend-swing" /> SWING FOOT</span>
+            <span><i className="legend-path" /> BODY PATH / VELOCITY</span>
           </div>
 
           {!robotStatus.loaded && (
@@ -991,6 +1019,33 @@ export function SimulatorApp() {
                     </span>
                   ))}
                 </div>
+              </section>
+
+              <section className="teaching-layer">
+                <div className="control-label">
+                  <span>TEACHING LAYER</span>
+                  <b>GAIT → IK → JOINTS</b>
+                </div>
+                <p>
+                  Green feet are in <b>stance</b>: their world targets stay
+                  planted while the black body advances. Orange feet are in
+                  <b> swing</b>: a smooth trajectory relocates them for the
+                  next support phase.
+                </p>
+                <div className="teaching-equations">
+                  <span><small>BODY SPEED</small><b>v = stride / period</b></span>
+                  <span><small>SUPPORT</small><b>{contactCount} planted legs</b></span>
+                  <span>
+                    <small>SCHEDULER</small>
+                    <b>{GAIT_LIBRARY[gait].code} · {(gaitParameters.duty * 100).toFixed(0)}% duty</b>
+                  </span>
+                </div>
+                <ol>
+                  <li>Commanded body twist defines step direction.</li>
+                  <li>The gait scheduler assigns stance and swing phases.</li>
+                  <li>Foot targets are solved by analytical inverse kinematics.</li>
+                  <li>The 18 joint angles drive the corrected CAD assembly.</li>
+                </ol>
               </section>
             </>
           )}

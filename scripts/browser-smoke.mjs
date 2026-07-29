@@ -60,6 +60,12 @@ try {
     ".phase-strip .control-label b",
     (node) => node.textContent,
   );
+  const distanceBefore = Number(
+    await page.$eval(
+      ".odometry-block",
+      (node) => node.getAttribute("data-odometry-distance"),
+    ),
+  );
   await page.$eval(".run-button", (button) => button.click());
   await page
     .waitForFunction(
@@ -74,11 +80,112 @@ try {
     ".phase-strip .control-label b",
     (node) => node.textContent,
   );
+  await page
+    .waitForFunction(
+      (previous) =>
+        Number(
+          document
+            .querySelector(".odometry-block")
+            ?.getAttribute("data-odometry-distance"),
+        ) >
+        previous + 0.002,
+      { timeout: 15_000 },
+      distanceBefore,
+    )
+    .catch(() => undefined);
+  const distanceAfter = Number(
+    await page.$eval(
+      ".odometry-block",
+      (node) => node.getAttribute("data-odometry-distance"),
+    ),
+  );
   const runningLabel = await page.$eval(
     ".run-button",
     (node) => node.textContent?.trim(),
   );
+  await page.screenshot({ path: resolve(artifacts, "desktop-walking.png") });
   await page.$eval(".run-button", (button) => button.click());
+
+  const readOdometry = async (field) =>
+    Number(
+      await page.$eval(
+        ".odometry-block",
+        (node, key) => node.getAttribute(`data-odometry-${key}`),
+        field,
+      ),
+    );
+
+  const gaitChecks = { tripod: distanceAfter > distanceBefore + 0.002 };
+  for (const gaitName of ["ripple", "wave", "tetrapod"]) {
+    await page.$$eval(
+      ".gait-grid button",
+      (buttons, label) =>
+        buttons
+          .find((button) => button.textContent?.toLowerCase().includes(label))
+          ?.click(),
+      gaitName,
+    );
+    const before = await readOdometry("distance");
+    await page.$eval(".run-button", (button) => button.click());
+    await page.waitForFunction(
+      (previous) =>
+        Number(
+          document
+            .querySelector(".odometry-block")
+            ?.getAttribute("data-odometry-distance"),
+        ) >
+        previous + 0.001,
+      { timeout: 15_000 },
+      before,
+    );
+    const after = await readOdometry("distance");
+    gaitChecks[gaitName] = after > before + 0.001;
+    await page.$eval(".run-button", (button) => button.click());
+  }
+
+  const checkCommand = async (selector, field, direction, threshold = 0.001) => {
+    await page.$eval(selector, (button) => button.click());
+    const before = await readOdometry(field);
+    await page.$eval(".run-button", (button) => button.click());
+    await page.waitForFunction(
+      (key, previous, sign, delta) => {
+        const value = Number(
+          document
+            .querySelector(".odometry-block")
+            ?.getAttribute(`data-odometry-${key}`),
+        );
+        return sign * (value - previous) > delta;
+      },
+      { timeout: 15_000 },
+      field,
+      before,
+      direction,
+      threshold,
+    );
+    const after = await readOdometry(field);
+    await page.$eval(".run-button", (button) => button.click());
+    return direction * (after - before) > threshold;
+  };
+
+  const commandChecks = {
+    backward: await checkCommand(
+      ".direction-layout button:nth-child(5)",
+      "x",
+      1,
+    ),
+    strafeLeft: await checkCommand(
+      ".direction-layout button:nth-child(2)",
+      "y",
+      -1,
+    ),
+    strafeRight: await checkCommand(
+      ".direction-layout button:nth-child(4)",
+      "y",
+      1,
+    ),
+    turnLeft: await checkCommand(".turn-row button:first-child", "yaw", -1, 0.005),
+    turnRight: await checkCommand(".turn-row button:last-child", "yaw", 1, 0.005),
+  };
 
   await page.$eval(".mode-tabs > button:nth-child(2)", (button) => button.click());
   await page.waitForSelector(".joint-stack", { visible: true });
@@ -141,6 +248,10 @@ try {
     desktop,
     mobile,
     gaitAdvanced: phaseBefore !== phaseAfter,
+    worldLocomotionAdvanced: distanceAfter > distanceBefore + 0.002,
+    gaitChecks,
+    commandChecks,
+    odometry: { distanceBefore, distanceAfter },
     runningLabel,
     modeChecks: { jointMode, ikMode, bodyMode },
     consoleErrors,
@@ -157,6 +268,9 @@ try {
     desktop.width > desktop.viewport + 1 ||
     mobile.width > mobile.viewport + 1 ||
     phaseBefore === phaseAfter ||
+    distanceAfter <= distanceBefore + 0.002 ||
+    Object.values(gaitChecks).some((passed) => !passed) ||
+    Object.values(commandChecks).some((passed) => !passed) ||
     !runningLabel?.includes("PAUSE") ||
     !jointMode ||
     !ikMode ||

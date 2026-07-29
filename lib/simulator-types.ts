@@ -45,6 +45,14 @@ export type RobotStatus = {
   triangleCount: number;
 };
 
+export type WorldPose = {
+  x: number;
+  y: number;
+  yaw: number;
+  distance: number;
+  speed: number;
+};
+
 export type FrameTelemetry = {
   joints: JointMap;
   contacts: Record<LegId, boolean>;
@@ -52,6 +60,7 @@ export type FrameTelemetry = {
   phase: number;
   cycle: number;
   fps: number;
+  world: WorldPose;
 };
 
 export type ViewportHandle = {

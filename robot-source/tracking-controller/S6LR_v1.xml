@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mujoco model="full_body">
+    
+  <compiler inertiafromgeom="auto" angle="radian" balanceinertia="true" boundmass="0.001" boundinertia="0.001" texturedir="asset">
+      <lengthrange inttotal="50"></lengthrange>
+  </compiler>
+  <default>
+    <joint limited="true" damping="0.0" armature="0.01" stiffness="0"></joint>
+    <geom contype="0" conaffinity="0" condim="3" rgba="0.9 0.9 0.9 1" margin="0.001" solref=".01 0.5" solimp=".4 .4 0.001" ></geom>
+    <site size="0.001"></site>
+    <tendon width="0.001" rgba=".95 .3 .3 1" limited="false"></tendon>
+    <default class="muscle">
+      <muscle ctrllimited="true" ctrlrange="0 1" scale="400"></muscle>
+    </default>
+    <default class="motor" >
+        <motor gear="1"></motor>
+    </default>
+  </default>
+  <option timestep="0.001">
+    <flag energy="enable"></flag>
+  </option>
+  <size njmax="1000" nconmax="1000" nuser_jnt="1"></size>
+  
+  
+<!--  <include file="humanoid_body.xml"/>-->
+  <visual>
+      <global offwidth="1280" offheight="720"/>
+      <rgba haze=".3 .3 .3 1"/>
+  </visual>
+  <worldbody>
+      <geom name="floor" pos="0 0 0" size="10 10 0.125" type="plane" material="MatPlane" condim="3" contype="1" conaffinity="3"></geom>
+<!--      <geom name="cube" pos="0 0 3" rgba="0.95 0.9 0.98 1" size="10 10 0.125" type="mesh" mesh="cube"></geom>-->
+<!--      <geom name="cube2" pos="4 2 3" rgba="0.95 0.9 0.98 1" size="10 10 0.125" type="mesh" mesh="cube2"></geom>-->
+    
+    <light directional="true" diffuse=".8 .8 .8" specular=".2 .2 .2" pos="0 0 5" dir="0 0 -1"/>
+
+    <body name="torso" pos="0 0 1.2">
+        <geom name="vim_top_cover" type="mesh" mesh="vim_top_cover" rgba="0.95 0.9 0.98 1" mass="10.03"></geom>
+        <geom name="vim_base" type="mesh" mesh="vim_base" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>
+        <geom name="main_body_mid" type="mesh" mesh="main_body_mid" rgba="0.95 0.9 0.98 1" mass="10.03"></geom>
+        <geom name="main_body_lower" type="mesh" mesh="main_body_lower" rgba="0.95 0.9 0.98 1" mass="100.03"></geom>
+        <geom name="lower_base" type="mesh" mesh="lower_base" rgba="0.95 0.9 0.98 1" mass="10.03"></geom>
+        <geom name="chassis_floor_collision" type="box" pos="0 0 -0.74" size="0.62 0.38 0.08" rgba="0 0 0 0" mass="0.001" contype="2" conaffinity="2"></geom>
+        
+        <geom name="camera_holder_A" type="mesh" mesh="camera_holder_A" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>
+        <geom name="camera_holder_B" type="mesh" mesh="camera_holder_B" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>
+        <geom name="motor_pitch_roll_holder" type="mesh" mesh="motor_pitch_roll_holder" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>
+        <geom name="base_roll" type="mesh" mesh="base_roll" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>
+        
+        <geom name="Servo_hip" type="mesh" mesh="Servo_hip" rgba="0.95 0.9 0.98 1" mass="1.03"></geom>
+        
+        
+        <joint name="torso_free" type="free" pos="0.0 0.28 -0.415" axis="0 0 1" limited="true" range="-1 1" ref="0" armature="0" stiffness="0" damping="0"></joint>
+        
+        <body name="hip_1" pos="-0.50 -0.035 0">
+            <geom name="hip_frame_right_1" type="mesh" mesh="hip_frame_right" rgba="0 0 0.98 1" mass="0.03" ></geom>
+            <joint name="hip_joint_1" type="hinge" pos="0.0 0.28 -0.415" axis="0 0 1" limited="true" range="-1 1" ref="0" armature="0" stiffness="0" damping="50"></joint>
+            <body name="femur_1" pos="0 0 0">
+                <geom name="Servo_femur_1" type="mesh" mesh="Servo_femur" rgba="0.1 0.1 0.1 1" mass="0.53"></geom>
+                <geom name="Servo_tibia_1" type="mesh" mesh="Servo_tibia" rgba="0.1 0.1 0.1 1" mass="0.53"></geom>
+                <geom name="femur_frame_maini_right_1" type="mesh" mesh="femur_frame_maini_right" rgba="0.95 0.9 0.98 1" mass="0.53"></geom>
+                <joint name="femur_joint_1" type="hinge" pos="18.5 0.52 -0.3" axis="1 0 0" limited="true" range="-3 3" ref="0" armature="0"stiffness="0" damping="100"></joint>
+                
+                <body name="tibia_1" pos="0 0 0">
+                    <geom name="tibia_frame_A_1" type="mesh" mesh="tibia_frame_A" rgba="0.95 0.9 0.98 1" mass="0.53"></geom>
+                    <geom name="tibia_link_A_1" type="mesh" mesh="tibia_link_A" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>
+                    <geom name="tibia_link_B_joint_1" type="mesh" mesh="tibia_link_B" rgba="0.95 1 0.98 1" mass="0.03" ></geom>
+                    <joint name="tibia_joint_1" type="hinge" pos="0.175 0.685 0.24" axis="1 0 0" limited="true" range="0 3" ref="0" armature="0"stiffness="0" damping="100"></joint>
+                    <body name="tibia_base_1">
+                        <site name="force_sensor_1" />
+                        <geom name="tibia_base_1" type="mesh" mesh="tibia_base" rgba="0.45 0 0.48 1" mass="0.03" contype="1" conaffinity="1"></geom>
+                    </body>
+                </body>
+            </body>
+        </body>
+        <body name="hip_2" pos="-0.50 0.035 0">
+            <geom name="hip_frame_left_2" type="mesh" mesh="hip_frame_left" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>
+            <joint name="hip_joint_2" type="hinge" pos="0.0 -0.28 -0.415" axis="0 0 1" limited="true" range="-1 1" ref="0" armature="0" stiffness="0" damping="50"></joint>
+            <body name="femur_2" pos="0 0 0">
+                <geom name="Servo_femur_2" type="mesh" mesh="Servo_femur_left" rgba="0.1 0.1 0.1 1" mass="0.53"></geom>
+                <geom name="Servo_tibia_2" type="mesh" mesh="Servo_tibia_left" rgba="0.1 0.1 0.1 1" mass="0.53"></geom>
+                <geom name="femur_frame_maini_2" type="mesh" mesh="femur_frame_maini_left" rgba="0.95 0.9 0.98 1" mass="0.53"></geom>
+                <joint name="femur_joint_2" type="hinge" pos="18.5 -0.52 -0.3" axis="1 0 0" limited="true" range="-3 3" ref="0" armature="0"stiffness="0" damping="100"></joint>
+                
+                <body name="tibia_2" pos="0 0 0">
+                    <geom name="tibia_frame_A_2" type="mesh" mesh="tibia_frame_A_left" rgba="0.95 0.9 0.98 1" mass="0.53"></geom>
+                    <geom name="tibia_link_A_2" type="mesh" mesh="tibia_link_A_left" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>
+                    <geom name="tibia_link_B_joint_2" type="mesh" mesh="tibia_link_B_left" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>
+                    <joint name="tibia_joint_2" type="hinge" pos="0.175 -0.685 0.24" axis="1 0 0" limited="true" range="-3 3" ref="0" armature="0"stiffness="0" damping="100"></joint>
+                    <body name="tibia_base_2" >
+                        <site name="force_sensor_2" />
+                        <geom name="tibia_base_2" type="mesh" mesh="tibia_base_left" rgba="0.95 0.9 0.98 1" mass="0.03" contype="1" conaffinity="1"></geom>
+                    </body>
+                </body>
+            </body>
+        </body>
+        <body name="hip_3" pos="0 0 0">
+            <geom name="hip_frame_right_3" type="mesh" mesh="hip_frame_right" rgba="0 0 0.98 1" mass="0.03"></geom>
+            <joint name="hip_joint_3" type="hinge" pos="0.0 0.28 -0.415" axis="0 0 1" limited="true" range="-1 1" ref="0" armature="0"stiffness="0" damping="100"></joint>
+            
+            <body name="femur_3" pos="0 0 0">
+                <geom name="Servo_femur_3" type="mesh" mesh="Servo_femur" rgba="0.1 0.1 0.1 1" mass="0.53"></geom>
+                <geom name="Servo_tibia_3" type="mesh" mesh="Servo_tibia" rgba="0.1 0.1 0.1 1" mass="0.53"></geom>
+                <geom name="femur_frame_maini_right" type="mesh" mesh="femur_frame_maini_right" rgba="0.95 0.9 0.98 1" mass="0.53"></geom>
+                <joint name="femur_joint_3" type="hinge" pos="18.5 0.52 -0.3" axis="1 0 0" limited="true" range="-3 3" ref="0" armature="0"stiffness="0" damping="100"></joint>
+                
+                <body name="tibia_3" pos="0 0 0">
+                    <geom name="tibia_frame_A_3" type="mesh" mesh="tibia_frame_A" rgba="0.95 0.9 0.98 1" mass="0.53"></geom>
+                    <geom name="tibia_link_A_3" type="mesh" mesh="tibia_link_A" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>
+                    <geom name="tibia_link_B_joint_3" type="mesh" mesh="tibia_link_B" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>
+                    <joint name="tibia_joint_3" type="hinge" pos="0.175 0.685 0.24" axis="1 0 0" limited="true" range="-3 3" ref="0" armature="0"stiffness="0" damping="100"></joint>
+                    
+                    <body name="tibia_base_3" pos="0 0 0">
+                        <site name="force_sensor_3" />
+                        <geom name="tibia_base_3" type="mesh" mesh="tibia_base" rgba="0.95 0.9 0.98 1" mass="0.03" contype="1" conaffinity="1"></geom>
+                    </body>
+<!--                    <body name="tibia_link_A_3" pos="0 0 0">-->
+<!--                        <geom name="tibia_link_A_3" type="mesh" mesh="tibia_link_A" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>-->
+<!--                        <joint name="tibia_link_A_joint_3" type="hinge" pos="0.035 0.76825 -0.3766" axis="1 0 0" limited="true" range="-1 1" ref="0" armature="0"stiffness="0" damping="100"></joint>-->
+<!--                        <body name="tibia_base_3" pos="0 0 0">-->
+<!--                            <geom name="tibia_base_3" type="mesh" mesh="tibia_base" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>-->
+<!--                            <joint name="tibia_base_A_joint_3" type="hinge" pos="0.035 0.69 -0.36" axis="1 0 0" limited="true" range="-1 1" ref="0" armature="0"stiffness="0" damping="100"></joint>-->
+<!--                        </body>-->
+<!--                    </body>-->
+<!--                    <body name="tibia_link_B_3" pos="0 0 0">-->
+<!--                        <geom name="tibia_link_B_joint_3" type="mesh" mesh="tibia_link_B" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>-->
+<!--                        <joint name="tibia_link_B_joint_3" type="hinge" pos="0.075 0.73825 -0.1666" axis="1 0 0" limited="true" range="-1 1" ref="0" armature="0"stiffness="0" damping="50"></joint>-->
+<!--                    </body>-->
+                </body>
+            </body>
+        </body>
+        
+        <body name="hip_4" pos="0 0 0">
+            <geom name="hip_frame_left_4" type="mesh" mesh="hip_frame_left" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>
+            <joint name="hip_joint_4" type="hinge" pos="0.0 -0.28 -0.415" axis="0 0 1" limited="true" range="-1 1" ref="0" armature="0" stiffness="0" damping="50"></joint>
+            <body name="femur_4" pos="0 0 0">
+                <geom name="Servo_femur_4" type="mesh" mesh="Servo_femur_left" rgba="0.1 0.1 0.1 1" mass="0.53"></geom>
+                <geom name="Servo_tibia_4" type="mesh" mesh="Servo_tibia_left" rgba="0.1 0.1 0.1 1" mass="0.53"></geom>
+                <geom name="femur_frame_maini_4" type="mesh" mesh="femur_frame_maini_left" rgba="0.95 0.9 0.98 1" mass="0.53"></geom>
+                <joint name="femur_joint_4" type="hinge" pos="18.5 -0.52 -0.3" axis="1 0 0" limited="true" range="-3 3" ref="0" armature="0"stiffness="0" damping="100"></joint>
+                
+                <body name="tibia_4" pos="0 0 0">
+                    <geom name="tibia_frame_A_4" type="mesh" mesh="tibia_frame_A_left" rgba="0.95 0.9 0.98 1" mass="0.53"></geom>
+                    <geom name="tibia_link_A_4" type="mesh" mesh="tibia_link_A_left" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>
+                    <geom name="tibia_link_B_joint_4" type="mesh" mesh="tibia_link_B_left" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>
+                    <joint name="tibia_joint_4" type="hinge" pos="0.175 -0.685 0.24" axis="1 0 0" limited="true" range="-3 3" ref="0" armature="0"stiffness="0" damping="100"></joint>
+                    
+                    <body name="tibia_base_4" pos="0 0 0">
+                        <site name="force_sensor_4" />
+                        <geom name="tibia_base_4" type="mesh" mesh="tibia_base_left" rgba="0.95 0.9 0.98 1" mass="0.03" contype="1" conaffinity="1"></geom>
+                    </body>
+                </body>
+            </body>
+        </body>
+        <body name="hip_5" pos="0.50 -0.035 0">
+            <geom name="hip_frame_right_5" type="mesh" mesh="hip_frame_right" rgba="0 0 0.98 1" mass="0.03"></geom>
+            <joint name="hip_joint_5" type="hinge" pos="0.0 0.28 -0.415" axis="0 0 1" limited="true" range="-3 3" ref="0" armature="0"stiffness="0" damping="100"></joint>
+            
+            <body name="femur_5" pos="0 0 0">
+                <geom name="Servo_femur_5" type="mesh" mesh="Servo_femur" rgba="0.1 0.1 0.1 1" mass="0.53"></geom>
+                <geom name="Servo_tibia_5" type="mesh" mesh="Servo_tibia" rgba="0.1 0.1 0.1 1" mass="0.53"></geom>
+                <geom name="femur_frame_maini_5" type="mesh" mesh="femur_frame_maini_right" rgba="0.95 0.9 0.98 1" mass="0.53"></geom>
+                <joint name="femur_joint_5" type="hinge" pos="18.5 0.52 -0.3" axis="1 0 0" limited="true" range="-3 3" ref="0" armature="0"stiffness="0" damping="100"></joint>
+                
+                <body name="tibia_5" pos="0 0 0">
+                    <geom name="tibia_frame_A_5" type="mesh" mesh="tibia_frame_A" rgba="0.95 0.9 0.98 1" mass="0.53"></geom>
+                    <geom name="tibia_link_A_5" type="mesh" mesh="tibia_link_A" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>
+                    <geom name="tibia_link_B_joint_5" type="mesh" mesh="tibia_link_B" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>
+                    <joint name="tibia_joint_5" type="hinge" pos="0.175 0.685 0.24" axis="1 0 0" limited="true" range="-3 3" ref="0" armature="0"stiffness="0" damping="100"></joint>
+                    
+                    <body name="tibia_base_5" pos="0 0 0">
+                        <site name="force_sensor_5" />
+                        <geom name="tibia_base_5" type="mesh" mesh="tibia_base" rgba="0.95 0.9 0.98 1" mass="0.03" contype="1" conaffinity="1"></geom>
+                    </body>
+                    
+                </body>
+            </body>
+        </body>
+        
+        <body name="hip_6" pos="0.50 0.035 0">
+            <geom name="hip_frame_left_6" type="mesh" mesh="hip_frame_left" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>
+            <joint name="hip_joint_6" type="hinge" pos="0.0 -0.28 -0.415" axis="0 0 1" limited="true" range="-1 1" ref="0" armature="0" stiffness="0" damping="50"></joint>
+            <body name="femur_6" pos="0 0 0">
+                <geom name="Servo_femur_6" type="mesh" mesh="Servo_femur_left" rgba="0.1 0.1 0.1 1" mass="0.53"></geom>
+                <geom name="Servo_tibia_6" type="mesh" mesh="Servo_tibia_left" rgba="0.1 0.1 0.1 1" mass="0.53"></geom>
+                <geom name="femur_frame_maini_6" type="mesh" mesh="femur_frame_maini_left" rgba="0.95 0.9 0.98 1" mass="0.53"></geom>
+                <joint name="femur_joint_6" type="hinge" pos="18.5 -0.52 -0.3" axis="1 0 0" limited="true" range="-3 3" ref="0" armature="0"stiffness="0" damping="100"></joint>
+                
+                <body name="tibia_6" pos="0 0 0">
+                    <geom name="tibia_frame_A_6" type="mesh" mesh="tibia_frame_A_left" rgba="0.95 0.9 0.98 1" mass="0.53"></geom>
+                    <geom name="tibia_link_A_6" type="mesh" mesh="tibia_link_A_left" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>
+                    <geom name="tibia_link_B_joint_6" type="mesh" mesh="tibia_link_B_left" rgba="0.95 0.9 0.98 1" mass="0.03"></geom>
+                    <joint name="tibia_joint_6" type="hinge" pos="0.175 -0.685 0.24" axis="1 0 0" limited="true" range="-3 3" ref="0" armature="0"stiffness="0" damping="100"></joint>]
+                    
+                    <body name="tibia_base_6" pos="0 0 0">
+                        <site name="force_sensor_6" />
+                        <geom name="tibia_base_6" type="mesh" mesh="tibia_base_left" rgba="0.95 0.9 0.98 1" mass="0.03" contype="1" conaffinity="1"></geom>
+                    </body>
+                </body>
+            </body>
+        </body>
+    </body>
+    
+<!--    <body name="base_env" pos="0 0 1">-->
+<!--        <geom name="base_env" type="mesh" mesh="base_env" rgba="0 0 0 1" mass="0.03"></geom>-->
+<!--        <geom name="env3" type="mesh" mesh="env3" rgba="0 0 0 1" mass="0.03"></geom>-->
+<!--    </body>-->
+  </worldbody>
+  <sensor>
+      <force name="force_sensor_1" site="force_sensor_1"/>
+      <force name="force_sensor_2" site="force_sensor_2"/>
+      <force name="force_sensor_3" site="force_sensor_3"/>
+      <force name="force_sensor_4" site="force_sensor_4"/>
+      <force name="force_sensor_5" site="force_sensor_5"/>
+      <force name="force_sensor_6" site="force_sensor_6"/>
+  </sensor>
+  <equality>
+      
+  </equality>
+  <asset>
+     
+    <texture type="skybox" builtin="gradient" rgb1="0.6 0.6 0.6" rgb2="1 1 1" width="512" height="512"/>
+    <material name="matplane" reflectance="0.3" texture="texplane" texrepeat="1 1" texuniform="true"/>
+    
+<!--    <mesh name="base_env" file="base_env.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>-->
+<!--    <mesh name="env1" file="env1.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>-->
+<!--    <mesh name="env2" file="env2.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>-->
+<!--    <mesh name="env3" file="env3.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>-->
+    
+    <mesh name="vim_top_cover" file="vim_top_cover.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>
+    <mesh name="vim_base" file="vim base.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>
+    
+    
+    <mesh name="camera_holder_A" file="camera holder A.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>
+    <mesh name="camera_holder_B" file="camera holder B.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>
+    <mesh name="lower_base" file="lower base.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>
+    <mesh name="motor_pitch_roll_holder" file="motor pitch roll holder.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>
+    <mesh name="base_roll" file="base roll.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>
+<!--    <mesh name="hip_frame_left" file="hip frame left.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>-->
+    <mesh name="main_body_mid" file="main body mid.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>
+    <mesh name="main_body_lower" file="main body lower.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>
+    
+    <mesh name="hip_frame_right" file="hip frame right mid.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>
+<!--    <mesh name="femur_frame_maini_left" file="femur frame maini left.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>-->
+    <mesh name="femur_frame_maini_right" file="femur frame maini right.stl" scale="      0.01       0.01        0.01"smoothnormal="false"></mesh>
+    <mesh name="tibia_frame_A" file="tibia frame A.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>
+    <mesh name="tibia_base" file="tibia base.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>
+    <mesh name="tibia_link_A" file="tibia link A.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>
+    <mesh name="tibia_link_B" file="tibia link B.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>
+    <mesh name="Servo_femur" file="Servo femur.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>
+    <mesh name="Servo_tibia" file="Servo tibia.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>
+    <mesh name="Servo_hip" file="hip motor.stl" scale="      0.01       0.01        0.01" smoothnormal="false"></mesh>
+    
+    <mesh name="hip_frame_left" file="hip frame right mid.stl" scale="      0.01       -0.01        0.01" smoothnormal="false"></mesh>
+    <mesh name="femur_frame_maini_left" file="femur frame maini right.stl" scale="      0.01       -0.01        0.01" smoothnormal="false"></mesh>
+    <mesh name="tibia_frame_A_left" file="tibia frame A.stl" scale="      0.01       -0.01        0.01" smoothnormal="false"></mesh>
+    <mesh name="tibia_base_left" file="tibia base.stl" scale="      0.01       -0.01        0.01" smoothnormal="false"></mesh>
+    <mesh name="tibia_link_A_left" file="tibia link A.stl" scale="      0.01       -0.01        0.01" smoothnormal="false"></mesh>
+    <mesh name="tibia_link_B_left" file="tibia link B.stl" scale="      0.01       -0.01        0.01" smoothnormal="false"></mesh>
+    <mesh name="Servo_femur_left" file="Servo femur.stl" scale="      0.01      -0.01        0.01" smoothnormal="false"></mesh>
+    <mesh name="Servo_tibia_left" file="Servo tibia.stl" scale="      0.01       -0.01        0.01" smoothnormal="false"></mesh>
+    <mesh name="Servo_hip_left" file="hip motor.stl" scale="      0.01       -0.01        0.01" smoothnormal="false"></mesh>
+     
+    
+<!--    <mesh name="cube" scale="0.2 0.2 0.2"-->
+<!--          vertex=" -9.5     8.075   8.075-->
+<!--                  8.075  -9.5     8.075-->
+<!--                  9.5     8.075   8.075">-->
+<!--    </mesh>-->
+<!--    <mesh name="cube2" scale="0.2 0.2 0.2"-->
+<!--          vertex="-19.5     12.075   8.075-->
+<!--                  8.075  -9.5     8.075-->
+<!--                  9.5     8.075   8.075">-->
+<!--    </mesh>-->
+    
+    <texture name="texplane" type="2d" builtin="checker" rgb1=".2 .3 .4" rgb2=".1 0.15 0.2" width="100" height="100"></texture>
+    <texture name="texgeom" type="cube" builtin="flat" mark="cross" width="127" height="1278" rgb1="0.8 0.6 0.4" rgb2="0.8 0.6 0.4" markrgb="1 1 1" random="0.01"></texture>
+    <material name="MatPlane" reflectance="0.5" texture="texplane" texrepeat="1 1" texuniform="true"></material>
+    <material name="geom" texture="texgeom" texuniform="true"></material>
+  </asset>
+  <sensor>
+      
+  </sensor>
+  <contact>
+      
+      <exclude body1="femur_3" body2="tibia_3"/>
+      <exclude body1="hip_3" body2="tibia_3"/>
+  </contact>
+  <actuator>
+      <motor name="hip_joint_1" gear="100" joint="hip_joint_1"forcelimited="true"  forcerange="-5 5" ctrllimited="true" ctrlrange="-200 200"  ></motor>
+      <motor name="femur_joint_1" gear="100" joint="femur_joint_1"forcelimited="true"  forcerange="-5 5" ctrllimited="true" ctrlrange="-200 200"  ></motor>
+      <motor name="tibia_joint_1" gear="100" joint="tibia_joint_1"forcelimited="true"  forcerange="-5 5" ctrllimited="true" ctrlrange="-200 200"   ></motor>
+      <motor name="hip_joint_2" gear="100" joint="hip_joint_2"forcelimited="true"  forcerange="-5 5" ctrllimited="true" ctrlrange="-200 200"   ></motor>
+      <motor name="femur_joint_2" gear="100" joint="femur_joint_2"forcelimited="true"  forcerange="-5 5" ctrllimited="true" ctrlrange="-200 200"   ></motor>
+      <motor name="tibia_joint_2" gear="100" joint="tibia_joint_2"forcelimited="true"  forcerange="-5 5" ctrllimited="true" ctrlrange="-200 200"   ></motor>
+      <motor name="hip_joint_3" gear="100" joint="hip_joint_3"forcelimited="true"  forcerange="-5 5" ctrllimited="true" ctrlrange="-200 200"   ></motor>
+      <motor name="femur_joint_3" gear="100" joint="femur_joint_3"forcelimited="true"  forcerange="-5 5" ctrllimited="true" ctrlrange="-200 200"   ></motor>
+      <motor name="tibia_joint_3" gear="100" joint="tibia_joint_3"forcelimited="true"  forcerange="-5 5" ctrllimited="true" ctrlrange="-200 200"  ></motor>
+      <motor name="hip_joint_4" gear="100" joint="hip_joint_4"forcelimited="true"  forcerange="-5 5" ctrllimited="true" ctrlrange="-200 200"   ></motor>
+      <motor name="femur_joint_4" gear="100" joint="femur_joint_4"forcelimited="true"  forcerange="-5 5" ctrllimited="true" ctrlrange="-200 200"   ></motor>
+      <motor name="tibia_joint_4" gear="100" joint="tibia_joint_4"forcelimited="true"  forcerange="-5 5" ctrllimited="true" ctrlrange="-200 200"   ></motor>
+      <motor name="hip_joint_5" gear="100" joint="hip_joint_5"forcelimited="true"  forcerange="-5 5" ctrllimited="true" ctrlrange="-200 200"  ></motor>
+      <motor name="femur_joint_5" gear="100" joint="femur_joint_5"forcelimited="true"  forcerange="-5 5" ctrllimited="true" ctrlrange="-200 200"   ></motor>
+      <motor name="tibia_joint_5" gear="100" joint="tibia_joint_5"forcelimited="true"  forcerange="-5 5" ctrllimited="true" ctrlrange="-200 200"   ></motor>
+      <motor name="hip_joint_6" gear="100" joint="hip_joint_6"forcelimited="true"  forcerange="-5 5" ctrllimited="true" ctrlrange="-200 200"  ></motor>
+      <motor name="femur_joint_6" gear="100" joint="femur_joint_6"forcelimited="true"  forcerange="-5 5" ctrllimited="true" ctrlrange="-200 200"  ></motor>
+      <motor name="tibia_joint_6" gear="100" joint="tibia_joint_6"forcelimited="true"  forcerange="-5 5" ctrllimited="true" ctrlrange="-200 200"   ></motor>
+  </actuator>
+  
+  <equality>
+      
+  </equality>
+</mujoco>
