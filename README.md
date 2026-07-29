@@ -42,6 +42,17 @@ npm run dev
 
 Then open `http://127.0.0.1:3000`.
 
+## Public deployment
+
+The repository includes a static Vite build for GitHub Pages. Every push to
+`main` validates the analytical kinematics, builds `dist-pages`, and deploys it
+with the workflow in `.github/workflows/deploy-pages.yml`.
+
+```bash
+npm run build:pages
+npm run preview:pages
+```
+
 ## Validate
 
 ```bash

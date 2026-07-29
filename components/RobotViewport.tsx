@@ -54,7 +54,7 @@ type RuntimeProps = Pick<
   | "playing"
 >;
 
-const ROBOT_URL = "/models/s6lr/hexapod.urdf";
+const ROBOT_URL = "./models/s6lr/hexapod.urdf";
 
 function sourceToScene(point: [number, number, number], height: number) {
   return new THREE.Vector3(point[0], point[2] + height, -point[1]);
