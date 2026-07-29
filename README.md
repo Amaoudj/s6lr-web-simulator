@@ -6,6 +6,26 @@ all 18 actuated joints, analytical forward/inverse kinematics, body pose,
 direction control, and four gait schedules. The robot translates and turns in
 the world frame instead of walking in place.
 
+## Demo
+
+<p align="center">
+  <a href="https://github.com/Amaoudj/s6lr-web-simulator/raw/refs/heads/main/media/SPINDER-S6LR-LinkedIn-Demo.mp4">
+    <img
+      src="media/SPINDER-S6LR-LinkedIn-Cover.jpg"
+      alt="SPINDER S6LR web simulator demo"
+      width="100%"
+    />
+  </a>
+</p>
+
+<p align="center">
+  <strong>
+    <a href="https://github.com/Amaoudj/s6lr-web-simulator/raw/refs/heads/main/media/SPINDER-S6LR-LinkedIn-Demo.mp4">▶ Watch the 51-second simulator demo</a>
+  </strong>
+  ·
+  <a href="https://amaoudj.github.io/s6lr-web-simulator/">Launch the live simulator</a>
+</p>
+
 ## Included controls
 
 - Tripod, ripple, wave, and tetrapod gait schedules
