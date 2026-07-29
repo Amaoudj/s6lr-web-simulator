@@ -112,3 +112,27 @@ npm run smoke:browser
 python -m pip install -r scripts/requirements-mesh.txt
 python scripts/optimize_meshes.py
 ```
+
+## Citation
+
+If you use this simulator, robot model, or controller in research or teaching,
+please cite the SPINDER paper:
+
+> Maoudj, A., Saputra, A.A., Brahmi, B. *et al.* SPINDER: an open-source
+> 18-DoF hexapod robot with hierarchical central pattern generator control and
+> analytic inverse kinematics. *Scientific Reports* (2026).
+> https://doi.org/10.1038/s41598-026-56856-0
+
+```bibtex
+@article{maoudj2026spinder,
+  author  = {Maoudj, Abderraouf and Saputra, Azhar Aulia and
+             Brahmi, Brahim and Nouioua, Mourad},
+  title   = {{SPINDER}: an open-source 18-{DoF} hexapod robot with
+             hierarchical central pattern generator control and analytic
+             inverse kinematics},
+  journal = {Scientific Reports},
+  year    = {2026},
+  doi     = {10.1038/s41598-026-56856-0},
+  url     = {https://doi.org/10.1038/s41598-026-56856-0}
+}
+```
